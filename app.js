@@ -5,7 +5,11 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 require('dotenv').config();
 const mongoose = require('mongoose');
-const User = require('./user'); // Ensure this path is correct
+const User = require('./models/user'); // Ensure this path is correct
+const cors = require('cors');
+
+
+
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB Connected'))
@@ -23,6 +27,12 @@ app.use(session({
     secret: process.env.SESSION_SECRET, // Ensure you have SESSION_SECRET in your .env
     resave: false,
     saveUninitialized: true,
+}));
+
+// Use it before all route definitions
+app.use(cors({
+  origin: 'http://localhost:3001', // Allow the frontend to make requests
+  credentials: true, // Allow cookies to be sent across origins
 }));
 
 // Passport initialization
@@ -121,7 +131,10 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
     res.send(`Welcome to your dashboard, ${req.user.displayName}!`);
 });
   
-  
+// Handle GET requests to /signup
+app.get('/signup', (req, res) => {
+  res.send('Signup page'); // Placeholder: replace with actual signup page rendering
+});
 
 // Route for user signup
 app.post('/signup', async (req, res) => {
@@ -155,6 +168,11 @@ app.get('/logout', (req, res) => {
       });
     });
   });
+
+app.get('/profile', ensureAuthenticated, (req, res) => {
+  res.json(req.user); // Send back user details
+});
+
   
   
 
