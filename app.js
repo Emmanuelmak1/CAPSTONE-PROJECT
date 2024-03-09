@@ -158,14 +158,13 @@ app.get('/data', async (req, res) => {
       'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
     }
   };
-})
-
   try {
     const response = await axios.request(options);
     console.log(response.data);
   } catch (error) {
     console.error(error);
   }
+});
 
 // Start the server
 app.listen(PORT, () => {
