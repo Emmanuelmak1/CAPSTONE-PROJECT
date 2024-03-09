@@ -1,6 +1,6 @@
-// LoginPopUp.js
 import React, { useState } from 'react';
 import { MDBBtn, MDBIcon, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
+import './LoginPopUp.css';
 
 function LoginPopUp({ onClose, onLogin }) {
   const [formData, setFormData] = useState({
@@ -21,6 +21,7 @@ function LoginPopUp({ onClose, onLogin }) {
   return (
     <div className="login-popup-overlay">
       <div className="login-popup">
+        <span className="close" onClick={onClose}>&times;</span> {/* Close button */}
         <form onSubmit={handleSubmit}>
           <MDBInput
             wrapperClass='mb-4'

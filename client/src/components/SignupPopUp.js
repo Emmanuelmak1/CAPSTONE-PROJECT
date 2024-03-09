@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { MDBIcon, MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput } from 'mdb-react-ui-kit';
+import './SignupPopUp.css';
 
-function SignupPopUp({ onSignupSuccess }) {
+function SignupPopUp({ onSignupSuccess, onClose }) {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -45,6 +46,8 @@ function SignupPopUp({ onSignupSuccess }) {
           <MDBCol col='12'>
             <MDBCard className='signup-popup'>
               <MDBCardBody className='p-5 w-100 d-flex flex-column'>
+
+                <span className="close" onClick={onClose}>&times;</span>
 
                 <h2 className="fw-bold mb-4 text-center">Sign Up</h2>
                 <p className="text-muted mb-4 text-center">Create an account to ease yourself in!</p>
