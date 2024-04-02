@@ -15,8 +15,6 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/loginpopup" element={<LoginPopUp />} /> {/* Render the Login component */}
-          <Route path="/signup" element={<Signup />} />
           {/* Correctly using ProtectedRoute */}
           <Route path="/dashboard" element={<ProtectedRoute />}>
             <Route path="" element={<Dashboard />} />

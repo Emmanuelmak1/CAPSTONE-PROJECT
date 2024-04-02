@@ -15,6 +15,8 @@ mongoose.connect(process.env.MONGODB_URI)
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static('public'));
+
 // Body parsing Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -82,10 +84,6 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Define routes
-//app.get('/', (req, res) => {
-  //res.send('Hello World!');
-//});
 
 // Route to start the OAuth flow
 app.get('/login',
@@ -93,24 +91,14 @@ app.get('/login',
 
 // Google OAuth callback route
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+
+  req.session.user = req.user;
+
   console.log("OAuth callback successful, redirecting to dashboard...");
-  res.redirect('/dashboard');
+  
+  res.redirect('http://localhost:3001/dashboard');
 });
 
-
-// Dashboard route
-app.get('/dashboard', (req, res) => {
-  console.log("Dashboard route accessed...");
-  if (!req.user) {
-      console.log("User not logged in, redirecting to login...");
-      // Redirect if user is not logged in
-      return res.redirect('/login');
-  }
-
-  // Render the dashboard page with user preferences
-  console.log("Rendering dashboard page for user:", req.user);
-  res.render('dashboard', { user: req.user });
-});
 
 // Logout route
 app.get('/logout', (req, res) => {
@@ -125,46 +113,15 @@ app.get('/logout', (req, res) => {
   });
 });
 
-
-// Route for user signup
-app.post('/signup', async (req, res) => {
-  try {
-    const { username, email, method = 'google' } = req.body; // No password for Google signup
-    const user = await User.create({ username, email, method });
-    res.status(201).json({ message: 'User created successfully', user });
-  } catch (err) {
-    console.error('Error creating user:', err);
-    res.status(400).json({ message: 'Error creating user', error: err });
+// Node.js (Express) - Example endpoint to check user session
+app.get('/api/auth/session', (req, res) => {
+  if (req.user) { // Assuming req.user is set upon successful authentication
+    res.json({ isAuthenticated: true, user: req.session.user });
+  } else {
+    res.json({ isAuthenticated: false });
   }
 });
 
-app.get('/data', async (req, res) => {
-  const options = {
-    method: 'GET',
-    url: 'https://travel-advisor.p.rapidapi.com/hotels/list-by-latlng',
-    params: {
-      latitude: '12.91285',
-      longitude: '121.9886',
-      lang: 'en_US',
-      hotel_class: '1,2,3',
-      limit: '30',
-      adults: '1',
-      amenities: 'beach,bar_lounge,airport_transportation',
-      currency: 'USD',
-      subcategory: 'hotel,bb,specialty'
-    },
-    headers: {
-      'X-RapidAPI-Key': 'cc74594f51msh908a5991f6d1c59p144cf4jsn1b8f1c98fcc3',
-      'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
-    }
-  };
-  try {
-    const response = await axios.request(options);
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-});
 
 // Start the server
 app.listen(PORT, () => {

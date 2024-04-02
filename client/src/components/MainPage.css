@@ -2,7 +2,7 @@
 
 .main-page {
   height: 100vh;
-  background-image: url('https://content.paulreiffer.com/wp-content/uploads/2019/11/San-Francisco-Skyline-Night-Blue-Hour-Lights-City-Cityscape-Downtown-Trails-Long-Exposure-Travel-Destination-Landscape-Photographer-Paul-Reiffer-Phase-One-High-Resolution-900x360@2x.jpg');
+  background-image: url('../images/bg.jpeg');
   background-size: cover;
   background-position: center;
   display: flex;

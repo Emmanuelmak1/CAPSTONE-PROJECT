@@ -5,7 +5,10 @@ import { useAuth } from '../context/AuthContext';
 const ProtectedRoute = () => {
   const { currentUser } = useAuth();
 
-  return currentUser ? <Outlet /> : <Navigate to="/login" />;
+  // Log the current user to see if it is being set
+  console.log('Current User in ProtectedRoute:', currentUser);
+
+  return currentUser ? <Outlet /> : <Navigate to="/dashboard" />;
 };
 
 export default ProtectedRoute;
