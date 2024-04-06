@@ -16,6 +16,8 @@ export const getPlacesData = async (type, sw, ne) => {
       },
     });
 
+    
+
     console.log('na the data be thiis ', data)
 
     return data;

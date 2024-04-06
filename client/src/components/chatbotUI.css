@@ -1,0 +1,146 @@
+/* ChatbotUI.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 50px;
+    width: 350px;
+    border: 3px solid #2F8D46;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chatbot-header {
+    background-color: #2F8D46;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.chatbot-body {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.chat-incoming, .chat-outgoing {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat p {
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.chat-outgoing p {
+    background-color: #162887;
+    align-self: flex-end;
+    color: #fff;
+}
+
+.chat-incoming p {
+    background-color: #eaeaea;
+}
+
+.chat-input {
+        border-top: 1px solid #ccc;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Ensure items are spaced out */
+        background-color: #fafafa; /* Light background for the input area */
+        height: 42px; /* Defining height for the container */
+    }
+    
+    /* Chat Input Text Field */
+    .chat-input input[type="text"] {
+        /* Calculate width dynamically */
+        /* Subtracting button width, margin-right, and padding from the container width */
+        width: calc(100% - 60px); /* Adjusted based on the button size and desired spacing */
+        padding: 10px;
+        margin-right: 10px; /* Spacing between input and send button */
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        outline: none;
+        font-size: 16px;
+        line-height: 21px; /* Ensuring text height is adequate */
+    }
+    
+    /* Chat Send Button */
+    .chat-input button {
+        width: 47px; /* Keeping button width as provided */
+        height: 42px; /* Matching the container height for alignment */
+        padding: 10px 0; /* Adjust padding to vertically center icon/text if necessary */
+        background-color: #2F8D46;;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+.chat-input textarea {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    resize: none;
+    outline: none;
+    overflow-y: auto;
+    background-color: #f7f7f7;
+    margin-right: 10px;
+}
+
+#sendBTN {
+    padding: 8px 15px;
+    border: none;
+    background-color: #2F8D46;
+    color: white;
+    cursor: pointer;
+    border-radius: 7px;
+    font-weight: 600;
+}
+
+/* Extra styles for scroll bar */
+.chatbot-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chatbot-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.chatbot-body::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.chatbot-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Additional styles or updates */
+.message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+        word-wrap: break-word;
+        background-color: #f0f0f0; /* Light grey background */
+    }
+    
+    /* Existing styles remain unchanged */
+    

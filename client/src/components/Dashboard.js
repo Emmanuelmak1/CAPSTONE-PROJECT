@@ -4,14 +4,16 @@ import { CssBaseline, Grid } from '@material-ui/core';
 import { getPlacesData, getWeatherData } from '../api/travelAdvisorAPI';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import List from './List/list'; // Ensure the path matches your project structure
+import List from './List/list';
+import Map from './Map/Map'; // Ensure the path matches your project structure
+import ChatbotUI from './chatbotUI';
 
 const Dashboard = () => {
   const [type, setType] = useState('restaurants');
   const [rating, setRating] = useState('');
 
-  const [coords, setCoords] = useState({ lat: 0, lng: 0 }); // Initialize with default values
-  const [bounds, setBounds] = useState({ ne: { lat: 0, lng: 0 }, sw: { lat: 0, lng: 0 } }); // Initialize with default values
+  const [coords, setCoords] = useState({});
+  const [bounds, setBounds] = useState(null);
 
   const [weatherData, setWeatherData] = useState([]);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
@@ -28,7 +30,14 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (bounds.sw && bounds.ne) {
+    const filtered = places.filter((place) => Number(place.rating) > rating);
+
+    setFilteredPlaces(filtered);
+  }, [rating, places]); // Add 'places' as a dependency
+
+
+  useEffect(() => {
+    if (bounds) {
       setIsLoading(true);
 
       getWeatherData(coords.lat, coords.lng)
@@ -36,18 +45,21 @@ const Dashboard = () => {
 
       getPlacesData(type, bounds.sw, bounds.ne)
         .then((data) => {
-          setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+          setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
           setFilteredPlaces([]);
+          setRating('');
           setIsLoading(false);
         });
     }
-  }, [type, bounds, coords]);
+  }, [bounds, type, coords.lat, coords.lng]); // Add 'coords.lat' and 'coords.lng' as dependencies
+
 
   const onLoad = (autoC) => setAutocomplete(autoC);
 
   const onPlaceChanged = () => {
     const lat = autocomplete.getPlace().geometry.location.lat();
     const lng = autocomplete.getPlace().geometry.location.lng();
+
     setCoords({ lat, lng });
   };
 
@@ -68,9 +80,17 @@ const Dashboard = () => {
           />
         </Grid>
         <Grid item xs={12} md={8}>
-          
+        <Map
+            setChildClicked={setChildClicked}
+            setBounds={setBounds}
+            setCoords={setCoords}
+            coords={coords}
+            places={filteredPlaces.length ? filteredPlaces : places}
+            weatherData={weatherData}
+          />
         </Grid>
       </Grid>
+      <ChatbotUI /> {/* This adds the chatbot UI to your dashboard */}
       <Footer />
     </div>
   );
